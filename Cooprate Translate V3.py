@@ -163,8 +163,7 @@ Input: "{user_input}"
 """, unsafe_allow_html=True)
 
             # 📋 Copy button
-            st.code(content, language="markdown")
-
+        
 elif mode and not user_input:
     st.warning("Please enter a message first 👀")
 
