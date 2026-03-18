@@ -1,0 +1,7 @@
+[theme]
+base="light"
+primaryColor="#7B1E3A"   # deep burgundy (your vibe 🔥)
+backgroundColor="#FFFFFF"
+secondaryBackgroundColor="#F7F7F7"
+textColor="#111111"
+font="sans serif"
