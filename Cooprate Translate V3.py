@@ -8,6 +8,42 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ⚙️ Page Config
 st.set_page_config(page_title="Corporate Translator 😏", layout="wide")
 
+st.markdown("""
+<style>
+
+/* Make the whole app wider */
+.block-container {
+    max-width: 1100px;
+    padding-top: 1.2rem;
+    margin: auto;
+}
+
+/* Make text area nicer */
+textarea {
+    width: 100% !important;
+    border-radius: 12px !important;
+    border: 1px solid #ddd !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+}
+
+/* Buttons */
+.stButton>button {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #7B1E3A;
+    color: white;
+    font-weight: 600;
+}
+
+.stButton>button:hover {
+    background-color: #5a162b;
+    color: white;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 # 🧠 HEADER
 st.title("😏 Corporate BS Translator")
 st.write("Say it better — or translate what they really meant.")
