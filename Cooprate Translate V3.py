@@ -6,7 +6,7 @@ from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ⚙️ Page Config
-st.set_page_config(page_title="Corporate Translator 😏")
+st.set_page_config(page_title="Corporate Translator 😏", layout="wide")
 
 # 🧠 HEADER
 st.title("😏 Corporate BS Translator")
