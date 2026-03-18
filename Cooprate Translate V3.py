@@ -5,8 +5,8 @@ from openai import OpenAI
 # 🔑 API
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# ⚙️ Page Config
-st.set_page_config(page_title="Corporate Translator 😏", layout="wide")
+# ⚙️ Page
+st.set_page_config(page_title="Corporate BS Translator 😏", layout="wide")
 
 # 🎨 STYLE
 st.markdown("""
@@ -14,14 +14,13 @@ st.markdown("""
 
 /* Layout */
 .block-container {
-    max-width: 1000px;
-    padding-top: 0.3rem;
+    max-width: 900px;
     margin: auto;
+    padding-top: 1rem;
 }
 
 /* Text area */
 textarea {
-    width: 100% !important;
     border-radius: 12px !important;
     border: 1px solid #ddd !important;
     padding: 14px !important;
@@ -30,13 +29,12 @@ textarea {
 
 /* Buttons */
 .stButton>button {
-    border-radius: 16px;
+    border-radius: 20px;
     background-color: #E87C72;
     color: white;
     font-weight: 600;
     padding: 14px;
     font-size: 16px;
-    white-space: nowrap;
     border: none;
 }
 
@@ -45,16 +43,25 @@ textarea {
     color: white;
 }
 
+/* Card */
+.card {
+    background-color: #F9F4F3;
+    padding: 20px;
+    border-radius: 14px;
+    border-left: 5px solid #E87C72;
+    margin-bottom: 18px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
 # 🧠 HEADER
 st.markdown("""
-<h1 style='text-align: center; color:#E87C72;'>😏 Corporate BS Translator</h1>
-<p style='text-align: center; font-size:18px; color:#444;'>
+<h1 style='text-align:center; color:#E87C72;'>😏 Corporate BS Translator</h1>
+<p style='text-align:center; font-size:18px; color:#444;'>
 Say it better — or translate what they really meant.
 </p>
-<p style='text-align: center; font-weight:600; color:#E87C72;'>
+<p style='text-align:center; font-weight:600; color:#E87C72;'>
 Built by Parisa Honari ✨
 </p>
 """, unsafe_allow_html=True)
@@ -63,12 +70,11 @@ Built by Parisa Honari ✨
 st.markdown("<h3 style='text-align:center;'>✍️ Paste your message below</h3>", unsafe_allow_html=True)
 user_input = st.text_area("", height=150)
 
-# 🎯 BUTTONS (FIXED + CENTERED)
+# 🎯 BUTTONS
 mode = None
+col1, col2, col3 = st.columns([1,2,1])
 
-col_left, col_center, col_right = st.columns([1,2,1])
-
-with col_center:
+with col2:
     b1, b2 = st.columns(2)
 
     with b1:
@@ -83,59 +89,48 @@ with col_center:
 if mode and user_input:
 
     prompt = f"""
-You are writing in the style of a sharp, confident, witty, and highly intelligent professional woman.
+You are a sharp, witty, elegant professional woman.
 
-Your tone:
-- Observant, clever, slightly sarcastic
-- Elegant but with personality
-- Never boring or generic
-
-You have TWO USER MODES:
-
-1) "translate" → Decode corporate language into what it REALLY means
-2) "polish" → Rewrite blunt statements into three refined versions
+TONE:
+- Smart, observant, slightly sarcastic
+- Clean, confident, human
 
 -------------------
 
 IF MODE = "translate":
 
-Output EXACTLY like this:
+Return EXACTLY in this format:
 
-💭 What they said:
-(optional clean version)
+### 💭 What they said
+...
 
-🧠 What they actually mean:
-(witty, honest, slightly sarcastic but smart)
+### 🧠 What they actually mean
+...
 
-💅 Translation:
-(short, punchy, memorable line)
+### 💅 Translation
+...
 
 -------------------
 
 IF MODE = "polish":
 
-Convert into THREE versions:
+Return EXACTLY in this format:
 
-1. HR-Safe Version 🧾:
-- Polished, strategic, politically correct
-- No "you"
-- No blame
+### 🧾 HR-Safe Version
+...
 
-2. Strategic Glow-Up ✨:
-- Smart, confident, slightly playful
-- Light sarcasm
+### ✨ Strategic Glow-Up
+...
 
-3. Savage Version 😈:
-- Funny, sharp, a little bold but still workplace safe
+### 😈 Savage Version
+...
 
 -------------------
 
-STRICT RULES:
-- No personal insults
-- Keep it workplace appropriate
-- Make it sound natural and human
-
--------------------
+RULES:
+- Keep workplace appropriate
+- No insults
+- Make it witty but smart
 
 Mode: {mode}
 Input: "{user_input}"
@@ -146,42 +141,41 @@ Input: "{user_input}"
         messages=[{"role": "user", "content": prompt}]
     )
 
+    result = response.choices[0].message.content
+
     st.divider()
     st.subheader("✨ Result")
 
-    # ✅ CLEAN FORMAT OUTPUT
-    result = response.choices[0].message.content
+    # 🧠 SPLIT INTO SECTIONS
+    sections = result.split("###")
 
-    result = result.replace("1.", "<br><b>1.</b>")
-    result = result.replace("2.", "<br><b>2.</b>")
-    result = result.replace("3.", "<br><b>3.</b>")
+    for sec in sections:
+        if sec.strip():
+            parts = sec.strip().split("\n", 1)
+            title = parts[0]
+            content = parts[1] if len(parts) > 1 else ""
 
-    result = result.replace("HR-Safe Version", "🧾 <b>HR-Safe Version</b>")
-    result = result.replace("Strategic Glow-Up", "✨ <b>Strategic Glow-Up</b>")
-    result = result.replace("Savage Version", "😈 <b>Savage Version</b>")
+            st.markdown(f"""
+<div class="card">
+<b>{title}</b><br><br>
+{content}
+</div>
+""", unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div style="
-        background-color:#F9F4F3;
-        padding:22px;
-        border-radius:14px;
-        border-left:5px solid #E87C72;
-        line-height:1.6;
-        font-size:15.5px;
-    ">
-    {result}
-    </div>
-    """, unsafe_allow_html=True)
+            # 📋 Copy button
+            st.code(content, language="markdown")
 
 elif mode and not user_input:
     st.warning("Please enter a message first 👀")
 
-# ⚠️ FOOTER
+# ⚠️ DISCLAIMER (moved to bottom, cleaner + funny)
 st.markdown("""
 <br><br>
 <hr>
-<p style='font-size:13px; color:gray; text-align:center;'>
-⚠️ This tool is for fun, humor, and sarcasm.  
-Use at your own risk 😏
+<p style='text-align:center; font-size:13px; color:gray;'>
+⚠️ Disclaimer: This tool is for entertainment, humor, and a touch of sarcasm.  
+It translates what people *might* mean — not what you should actually say in a meeting.  
+
+Use at your own risk. If you paste this into an email and hit send, that’s between you, your boss, and HR 😏
 </p>
 """, unsafe_allow_html=True)
