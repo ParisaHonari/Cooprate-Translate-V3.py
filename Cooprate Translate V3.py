@@ -8,11 +8,11 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ⚙️ Page Config
 st.set_page_config(page_title="Corporate Translator 😏", layout="wide")
 
-# 🎨 STYLE (FIXED SPACING + WIDTH)
+# 🎨 STYLE (CORAL THEME + FIX SPACING)
 st.markdown("""
 <style>
 
-/* Layout width + MOVE CONTENT UP */
+/* Layout */
 .block-container {
     max-width: 1100px;
     padding-top: 0.3rem;
@@ -32,13 +32,13 @@ textarea {
 .stButton>button {
     width: 100%;
     border-radius: 10px;
-    background-color: #7B1E3A;
+    background-color: #E87C72;
     color: white;
     font-weight: 600;
 }
 
 .stButton>button:hover {
-    background-color: #5a162b;
+    background-color: #d96b61;
     color: white;
 }
 
@@ -47,22 +47,22 @@ textarea {
 
 # 🧠 HEADER
 st.markdown("""
-<h1 style='text-align: center; color:#7B1E3A;'>😏 Corporate BS Translator</h1>
+<h1 style='text-align: center; color:#E87C72;'>😏 Corporate BS Translator</h1>
 <p style='text-align: center; font-size:18px; color:#444;'>
 Say it better — or translate what they really meant.
 </p>
-<p style='text-align: center; font-weight:600; color:#7B1E3A;'>
+<p style='text-align: center; font-weight:600; color:#E87C72;'>
 Built by Parisa Honari ✨
 </p>
 """, unsafe_allow_html=True)
 
-# ✍️ INPUT (MOVED UP + CENTER FEEL)
+# ✍️ INPUT (CENTER FEEL)
 st.markdown("""
 <div style="
     display:flex;
     flex-direction:column;
     align-items:center;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-bottom: 10px;
 ">
     <h3 style="margin-bottom:10px;">✍️ Paste your message below</h3>
@@ -88,56 +88,57 @@ with col2:
 if mode and user_input:
 
     prompt = f"""
-You are writing in the style of a sharp, confident, and highly intelligent professional woman.
+You are writing in the style of a sharp, confident, witty, and highly intelligent professional woman.
 
 Your tone:
-- Witty, composed, observant
-- Slightly playful but controlled
-- Elegant with a subtle edge
-- Never generic or basic
+- Observant, clever, slightly sarcastic
+- Elegant but with personality
+- Never boring or generic
 
 You have TWO USER MODES:
 
-1) "translate" → Translate corporate language into what it REALLY means
+1) "translate" → Decode corporate language into what it REALLY means
 2) "polish" → Rewrite blunt statements into three refined versions
 
 -------------------
 
 IF MODE = "translate":
-- Be honest, direct, slightly blunt but not rude
-- Make it feel real and relatable
-- Output ONLY:
 
-Meaning:
+Output EXACTLY like this:
+
+💭 What they said:
+(optional clean version)
+
+🧠 What they actually mean:
+(witty, honest, slightly sarcastic but smart)
+
+💅 Translation:
+(short, punchy, memorable line)
 
 -------------------
 
 IF MODE = "polish":
 
-Convert the input into THREE versions:
+Convert into THREE versions:
 
 1. HR-Safe Version 🧾:
-- Extremely polished, politically correct, strategic
-- NEVER use "you"
-- No blame, no emotion
-- Focus on alignment, clarity, priorities
+- Polished, strategic, politically correct
+- No "you"
+- No blame
 
 2. Strategic Glow-Up ✨:
-- Intelligent, confident, slightly playful
-- Observational humor
+- Smart, confident, slightly playful
 - Light sarcasm
-- Natural and sharp
 
 3. Savage Version 😈:
-- Funny, sarcastic, sharp
-- Slight edge but still workplace safe
+- Funny, sharp, a little bold but still workplace safe
 
 -------------------
 
 STRICT RULES:
 - No personal insults
-- Focus on situation, not the person
 - Keep it workplace appropriate
+- Make it sound natural and human
 
 -------------------
 
@@ -155,10 +156,10 @@ Input: "{user_input}"
 
     st.markdown(f"""
     <div style="
-        background-color:#F7F7F7;
+        background-color:#F9F4F3;
         padding:20px;
         border-radius:12px;
-        border-left:5px solid #7B1E3A;
+        border-left:5px solid #E87C72;
     ">
     {response.choices[0].message.content}
     </div>
@@ -167,7 +168,7 @@ Input: "{user_input}"
 elif mode and not user_input:
     st.warning("Please enter a message first 👀")
 
-# ⚠️ DISCLAIMER (BOTTOM)
+# ⚠️ FOOTER DISCLAIMER
 st.markdown("""
 <br><br>
 <hr>
